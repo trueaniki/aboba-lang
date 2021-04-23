@@ -1,0 +1,15 @@
+{
+  "name": "antlr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "AntlrLexer.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "antlr4": "^4.9.2"
+  }
+}

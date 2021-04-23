@@ -1,0 +1,88 @@
+# 1.Последовательные действия
+a = 1
+b = 2
+a = a + b 
+b = a - b  
+a = a - b 
+io_write(a, b)
+
+# 1.1 Последовательные действия
+a = 2
+b = 4
+c= a * b + a
+io_write(c)
+
+# 2.Оператор условия и выбора
+if a < 0 {
+s = -1
+} 
+elif a == 0 {
+s = 0
+}
+else {
+s = 1
+}
+io_write(s)
+
+# 2.1 Оператор условия и выбора
+if a > 0 {
+s = -5
+}
+elif a == 0 {
+s = 100
+}
+else {
+s = 1
+}
+print(s)
+
+# 3. Циклы(работа со строками)
+s = "abcdefghijklmnop"
+while s != "" {
+io_write(s)
+s = s[1:-1]
+}
+
+# 3.1 Циклы(работа со строками)
+s = "123456789"
+while s != "" {
+io_write(s)
+s = s[2:-2]
+}
+
+# 4. Циклы(таблица умножения)
+for i in 1..10 {
+	for j in 1..10 {
+		io_write(format("$1 * $2 = $3", i, j, i * j))
+	}
+}
+
+# 4.1 (сумма цифр)
+j = 0
+for k in 1..11 {
+    j += k
+}
+io_write(j)
+
+# 5. Пример определения и вызова функции
+fn example_fun(rub, kop = 0) {
+    return format("$1 руб. $2 коп.", rub, kop)
+}
+io_write(example_fun(1,2)
+io_write(example_fun(7))
+
+# 5.1 Пример определения и вызова функции
+fn car(marka, body=" "):
+    return format("$1 $2 ", marka, body)
+io_write(car("audi", 80))
+io_write(car("bmw", "i3"))
+
+# 6 Ввод из stdin
+input = io_read()
+io_write(input)
+
+# 6.1 Ввод из stgin и передача в функцию
+g = io_read()
+t = io_read()
+a = car(g, t)
+io_write(a)
