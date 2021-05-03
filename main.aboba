@@ -1,0 +1,56 @@
+# variable declarations
+x = 1
+x = 0.1
+x = true
+x = y
+x = !y
+x = 1..10
+
+
+# function definition
+add =
+    fn(a,b) ->
+        a + b
+    end
+
+# map definition
+plus_one =
+    map n in arr ->
+        n + 1
+    end
+
+# reduce definition
+get_sum =
+    reduce n in arr to sum ->
+        sum + n
+    end
+
+# filter definition
+get_even =
+    filter n in arr ->
+        n % 2 == 0
+    end
+
+# map inline call
+increased =
+    run map n in 1..10 ->
+        n + 1
+    end
+
+# reduce inline call
+sum =
+    run reduce n in 1..10 to sum ->
+        sum + n
+    end
+
+# filter inline call
+even =
+    run filter n in 1..10 ->
+        n % 2 == 0
+    end
+
+# condition
+if n & 2 == 0 ->
+    io_write('even')
+else ->
+    io_write('odd')

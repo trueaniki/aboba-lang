@@ -2,17 +2,18 @@ lexer grammar Lexer;
 
 // Keywords
 
-BOOLEAN:            'boolean';
-CONST:              'const';
-DOUBLE:             'double';
 ELSE:               'else';
-FINAL:              'final';
-FOR:                'for';
 IF:                 'if';
-INT:                'int';
-RETURN:             'return';
-VOID:               'void';
-WHILE:              'while';
+FN:                 'fn';
+MAP:                'map';
+REDUCE:             'reduce';
+TO:                 'to';
+FILTER:             'filter';
+BY:                 'by';
+IN:                 'in';
+END:                'end';
+ARROW:              '->';
+EXEC:               'exec';
 
 // Literals
 
@@ -28,34 +29,24 @@ BOOL_LITERAL:       'true'
 // Separators
 LPAREN:             '(';
 RPAREN:             ')';
-LBRACE:             '{';
-RBRACE:             '}';
-SEMI:               ';';
 COMMA:              ',';
-DOT:                '.';
 // Operators
 ASSIGN:             '=';
+RANGE:              '..';
 GT:                 '>';
 LT:                 '<';
-BANG:               '!';
+NOT:               '!';
 EQUAL:              '==';
 LE:                 '<=';
 GE:                 '>=';
 NOTEQUAL:           '!=';
 AND:                '&&';
 OR:                 '||';
-INC:                '++';
-DEC:                '--';
 ADD:                '+';
 SUB:                '-';
 MUL:                '*';
 DIV:                '/';
-CARET:              '^';
 MOD:                '%';
-ADD_ASSIGN:         '+=';
-SUB_ASSIGN:         '-=';
-MUL_ASSIGN:         '*=';
-DIV_ASSIGN:         '/=';
 
 WS:                 [ \t\r\n\u000C]+ -> channel(HIDDEN);
 
@@ -74,7 +65,7 @@ fragment LetterOrDigit
     | [0-9]
     ;
 fragment Letter
-    : [a-zA-Z$_] // these are the "java letters" below 0x7F
-    | ~[\u0000-\u007F\uD800-\uDBFF] // covers all characters above 0x7F which are not a surrogate
-    | [\uD800-\uDBFF] [\uDC00-\uDFFF] // covers UTF-16 surrogate pairs encodings for U+10000 to U+10FFFF
+    : [a-zA-Z$_]
+    | ~[\u0000-\u007F\uD800-\uDBFF]
+    | [\uD800-\uDBFF] [\uDC00-\uDFFF]
     ;

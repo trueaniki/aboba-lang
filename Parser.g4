@@ -2,190 +2,55 @@ parser grammar Parser;
 
 options { tokenVocab=Lexer; }
 
-compilationUnit
-    : typeDeclaration* EOF
+literal: DECIMAL_LITERAL | FLOAT_LITERAL | BOOL_LITERAL;
+
+if_statement:
+    IF expression ARROW
+    task_body
+    (ELSE ARROW statement)??
+;
+
+statement:
+    if_statement |
+    expression
     ;
 
-typeDeclaration
-    : classDeclaration
-    | ';'
+task_body: statement+ END;
+
+fn_task: FN LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN ARROW
+    task_body
     ;
 
-variableModifier
-    : FINAL
+map_task: MAP IDENTIFIER IN IDENTIFIER ARROW
+    task_body
     ;
 
-classDeclaration
-    : CLASS IDENTIFIER
-      classBody
+reduce_task: REDUCE IDENTIFIER IN IDENTIFIER TO IDENTIFIER ARROW
+    task_body
     ;
 
-classBody
-    : '{' classBodyDeclaration* '}'
+filter_task: FILTER IDENTIFIER IN IDENTIFIER ARROW
+    task_body
     ;
 
-classBodyDeclaration
-    : ';'
-    | memberDeclaration
+task_call: IDENTIFIER '(' expressionList? ')';
+
+expressionList: expression (',' expression)*;
+
+expression:
+    literal |
+    LPAREN expression RPAREN |
+    task_call |
+    prefix='!' expression |
+    expression bop=('*'|'/'|'%') expression |
+    expression bop=('+'|'-') expression |
+    expression bop=('<=' | '>=' | '>' | '<') expression |
+    expression bop=('==' | '!=') expression |
+    expression bop='&&' expression |
+    expression bop='||' expression
     ;
 
-memberDeclaration
-    : methodDeclaration
-    ;
 
-methodDeclaration
-    : typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')*
-      methodBody
-    ;
-
-methodBody
-    : block
-    | ';'
-    ;
-
-typeTypeOrVoid
-    : typeType
-    | VOID
-    ;
-
-variableDeclarators
-    : variableDeclarator (',' variableDeclarator)*
-    ;
-
-variableDeclarator
-    : variableDeclaratorId ('=' variableInitializer)?
-    ;
-
-variableDeclaratorId
-    : IDENTIFIER ('[' ']')*
-    ;
-
-variableInitializer
-    : arrayInitializer
-    | expression
-    ;
-
-arrayInitializer
-    : '{' (variableInitializer (',' variableInitializer)* (',')? )? '}'
-    ;
-
-formalParameters
-    : '(' formalParameterList? ')'
-    ;
-
-formalParameterList
-    : formalParameter (',' formalParameter)*
-    ;
-
-formalParameter
-    : variableModifier* typeType variableDeclaratorId
-    ;
-
-literal
-    : integerLiteral
-    | floatLiteral
-    | BOOL_LITERAL
-    ;
-
-integerLiteral
-    : DECIMAL_LITERAL
-    ;
-
-floatLiteral
-    : FLOAT_LITERAL
-    ;
-
-// STATEMENTS / BLOCKS
-
-block
-    : '{' blockStatement* '}'
-    ;
-
-blockStatement
-    : localVariableDeclaration ';'
-    | statement
-    ;
-
-localVariableDeclaration
-    : variableModifier* typeType variableDeclarators
-    ;
-
-statement
-    : blockLabel=block
-    | IF parExpression statement (ELSE statement)?
-    | FOR '(' forControl ')' statement
-    | WHILE parExpression statement
-    | RETURN expression? ';'
-    | SEMI
-    | statementExpression=expression ';'
-    ;
-
-forControl
-    : enhancedForControl
-    | forInit? ';' expression? ';' forUpdate=expressionList?
-    ;
-
-forInit
-    : localVariableDeclaration
-    | expressionList
-    ;
-
-enhancedForControl
-    : variableModifier* typeType variableDeclaratorId ':' expression
-    ;
-
-// EXPRESSIONS
-
-parExpression
-    : '(' expression ')'
-    ;
-
-expressionList
-    : expression (',' expression)*
-    ;
-
-methodCall
-    : IDENTIFIER '(' expressionList? ')'
-    ;
-
-expression
-    : primary
-    | expression bop='.'
-      ( IDENTIFIER
-      | methodCall
-      | explicitGenericInvocation
-      )
-    | expression '[' expression ']'
-    | methodCall
-    | '(' typeType ')' expression
-    | expression postfix=('++' | '--')
-    | prefix=('+'|'-'|'++'|'--') expression
-    | prefix='!' expression
-    | expression bop=('*'|'/'|'%') expression
-    | expression bop=('+'|'-') expression
-    | expression bop=('<=' | '>=' | '>' | '<') expression
-    | expression bop=('==' | '!=') expression
-    | expression bop='^' expression
-    | expression bop='&&' expression
-    | expression bop='||' expression
-    | <assoc=right> expression
-      bop=('=' | '+=' | '-=' | '*=' | '/=')
-      expression
-	;
-
-primary
-    : '(' expression ')'
-    | literal
-    | IDENTIFIER
-    ;
-
-typeType
-    : typeType ('[' ']')
-	| primitiveType
-    ;
-
-primitiveType
-    : BOOLEAN
-    | INT
-    | DOUBLE
-    ;
+file: (
+    fn_task | map_task | reduce_task | filter_task | statement
+)*;
