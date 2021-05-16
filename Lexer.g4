@@ -4,6 +4,7 @@ lexer grammar Lexer;
 
 ELSE:               'else';
 IF:                 'if';
+WHILE:              'while';
 FN:                 'fn';
 MAP:                'map';
 REDUCE:             'reduce';
@@ -47,8 +48,12 @@ SUB:                '-';
 MUL:                '*';
 DIV:                '/';
 MOD:                '%';
+PIPE:               '|>';
 
 WS:                 [ \t\r\n\u000C]+ -> channel(HIDDEN);
+EOL:                ('\r'|'\n')+;
+HASH:               '#';
+COMMENT:            HASH.*?EOL -> skip;
 
 IDENTIFIER:         Letter LetterOrDigit*;
 

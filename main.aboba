@@ -6,7 +6,6 @@ x = y
 x = !y
 x = 1..10
 
-
 # function definition
 add =
     fn(a,b) ->
@@ -27,30 +26,23 @@ get_sum =
 
 # filter definition
 get_even =
-    filter n in arr ->
-        n % 2 == 0
-    end
-
-# map inline call
-increased =
-    run map n in 1..10 ->
-        n + 1
-    end
-
-# reduce inline call
-sum =
-    run reduce n in 1..10 to sum ->
-        sum + n
-    end
-
-# filter inline call
-even =
-    run filter n in 1..10 ->
-        n % 2 == 0
-    end
+    filter n in arr by n % 2 == 0
 
 # condition
-if n & 2 == 0 ->
-    io_write('even')
+if n / 2 == 0 ->
+    io_write(1)
+    end
 else ->
-    io_write('odd')
+    io_write(0)
+    end
+
+n = true
+while !n ->
+    if io_read() == 0 ->
+        n = false
+    end
+end
+
+# pipeline
+
+14 |> io_write |> io_write
