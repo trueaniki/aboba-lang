@@ -9,7 +9,7 @@ predicate: expression;
 if_statement:
     IF predicate ARROW
     task_body
-    (ELSE ARROW statement)??
+    (ELSE ARROW task_body)??
 ;
 
 while_statement:
