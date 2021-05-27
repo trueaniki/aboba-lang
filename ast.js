@@ -15,4 +15,4 @@ parser.buildParseTrees = true;
 const tree = parser.file();
 const visitor = new Visitor()
 visitor.start(tree)
-// console.log(tree)
+console.log(tree)
